@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="card_reader_devices_action" model="ir.actions.act_window">
+        <field name="name">讀卡機裝置總覽</field>
+        <field name="res_model">card_reader</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <record id="card_reader_tree_view" model="ir.ui.view">
+        <field name="name">card_reader_list_view</field>
+        <field name="model">card_reader</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無讀卡機裝置資料">
+                <field name="device_name"/>
+                <field name="device_pos"/>
+                <field name="device_uid"/>
+                <field name="device_mode"/>
+                <field name="device_connected"/>
+            </tree>
+        </field>
+    </record>
+    <record id="card_reader_kanban_view" model="ir.ui.view">
+        <field name="name">card_reader_kanban_view</field>
+        <field name="model">card_reader</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <field name="device_name"/>
+                                </h5>
+                                <p class="card-text">
+                                    <strong>位置:</strong>
+                                    <field name="device_pos"/>
+                                    <br/>
+                                    <strong>UID:</strong>
+                                    <field name="device_uid"/>
+                                    <br/>
+                                    <strong>型式:</strong>
+                                    <field name="device_mode"/>
+                                    <br/>
+                                    <strong>啟用狀態:</strong>
+                                    <field name="device_connected"/>
+                                </p>
+                                <button name="action_edit" type="edit" class="btn btn-primary">編輯</button>
+                                <button name="action_delete" type="delete" class="btn btn-danger">刪除</button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

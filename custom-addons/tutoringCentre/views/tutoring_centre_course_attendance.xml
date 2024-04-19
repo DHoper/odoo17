@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <record id="tutoring_centre_course_attendance_panel" model="ir.ui.view">
+        <field name="name">補習班點名系統-點名介面</field>
+        <field name="model">tutoring_centre.student</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record> -->
+
+    <!-- <record id="action_open_attendance_panel" model="ir.actions.act_window">
+        <field name="name">補習班點名系統-點名介面</field>
+        <field name="res_model">tutoring_centre.student</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="tutoringCentre.tutoring_centre_course_attendance_panel"/>
+        <field name="domain">[('courses', 'in', [active_id])]</field>
+        <field name="context">{'course_id': active_id}</field>
+    </record> -->
+
+    <record id="tutoring_centre_course_attendance_tree" model="ir.ui.view">
+        <field name="name">補習班點名系統-點名介面_清單</field>
+        <field name="model">tutoring_centre.course_attendance</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="checking_teacher" />
+                <field name="start_time" />
+                <field name="end_time" />
+                <field name="attendance_line_ids" />
+                <field name="total_students" />
+                <field name="attended_students" />
+                <field name="absent_students" />
+                <button invisible="end_time" name="action_set_end_time" type="object"
+                    class="btn btn-primary" string="課程結束" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_attendance_form" model="ir.ui.view">
+        <field name="name">補習班點名系統-點名介面_表格</field>
+        <field name="model">tutoring_centre.course_attendance</field>
+        <field name="arch" type="xml">
+            <form string="點名介面" class="o_form_container">
+                <header>
+                    <h2>班級點名表</h2>
+                </header>
+                <field name="teacher_ids" invisible="True" />
+                <sheet>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="start_time">開始時間</label>
+                                <field name="start_time" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="end_time">結束時間</label>
+                                <field name="end_time" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <field name="course_id" widget="badge" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="checking_teacher">負責老師</label>
+                                <field name="checking_teacher" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <field name="attendance_line_ids">
+                                    <tree string="目前尚無資料" create="False" delete="False" edit="False">
+                                        <field name="student_id" />
+                                        <field name="attended" widget="boolean_toggle" />
+                                        <field name="remark" />
+                                        <field name="start_time" />
+                                        <field name="end_time" />
+                                    </tree>
+                                </field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="total_students">應到人數</label>
+                                <field name="total_students" class="o_input" readonly="1" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="attended_students">實到人數</label>
+                                <field name="attended_students" class="o_input" readonly="1" />
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="absent_students">未到人數</label>
+                                <field name="absent_students" class="o_input" readonly="1" />
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_attendance_panel" model="ir.actions.act_window">
+        <field name="name">日點名表</field>
+        <field name="res_model">tutoring_centre.course_attendance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('course_id', '=', active_id)]</field>
+        <field name="context">{'course_id': active_id}</field>
+    </record>
+
+    <record id="tutoring_centre_course_attendance_kanban" model="ir.ui.view">
+        <field name="name">tutoring_centre.course.attendance.kanban</field>
+        <field name="model">tutoring_centre.course</field>
+        <field name="arch" type="xml">
+            <kanban create="False">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <field name="name" />
+                                </h5>
+                            </div>
+                            <div class="card-footer">
+                                <button type="action"
+                                    name="%(tutoringCentre.action_open_attendance_panel)d"
+                                    class="btn btn-primary">點名</button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_attendance_action" model="ir.actions.act_window">
+        <field name="name">補習班點名系統</field>
+        <field name="res_model">tutoring_centre.course</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="tutoringCentre.tutoring_centre_course_attendance_kanban" />
+    </record>
+
+    <!-- <record id="send_group_message" model="ir.actions.server">
+        <field name="name">發送點名訊息</field>
+        <field name="model_id" ref="tutoringCentre.model_tutoring_centre_student"/>
+        <field name="binding_model_id" ref="tutoringCentre.model_tutoring_centre_student"/>
+        <field name="binding_view_types">tree</field>
+        <field name="state">code</field>
+        <field name="code">
+course_id = env.context.get('course_id')
+action = env['tutoring_centre.course'].roll_call(course_id,records)
+        </field>
+    </record> -->
+
+    <record id="tutoring_centre_course_attendance_line_list" model="ir.ui.view">
+        <field name="name">tutoring_centre_course_attendance_line_list</field>
+        <field name="model">tutoring_centre.course_attendance_line</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料" delete="false">
+                <field name="course_name" />
+                <field name="attended" />
+                <field name="remark" />
+                <field name="student_id" />
+                <field name="start_time" />
+                <field name="end_time" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_attendance_line_list" model="ir.ui.view">
+        <field name="name">tutoring_centre_course_attendance_line_list</field>
+        <field name="model">tutoring_centre.course_attendance_line</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料" delete="false">
+                <field name="course_name" />
+                <field name="student_id" />
+                <field name="attended" />
+                <field name="remark" />
+                <field name="start_time" />
+                <field name="end_time" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_attendance_line_form" model="ir.ui.view">
+        <field name="name">tutoring_centre_course_attendance_line_form</field>
+        <field name="model">tutoring_centre.course_attendance_line</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料">
+                <sheet>
+                    <group>
+                        <field name="course_name" />
+                        <field name="student_id" />
+                        <field name="attended" />
+                        <field name="remark" />
+                        <field name="start_time" />
+                        <field name="end_time" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

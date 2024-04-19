@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tutoring_centre_course_announcement_tree" model="ir.ui.view">
+        <field name="name">補習班公告系統-公告介面_清單</field>
+        <field name="model">tutoring_centre.course_announcement</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="title" />
+                <field name="context" />
+                <field name="write_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_announcement_form" model="ir.ui.view">
+        <field name="name">補習班公告系統-公告介面_表格</field>
+        <field name="model">tutoring_centre.course_announcement</field>
+        <field name="arch" type="xml">
+            <form string="公告介面" class="o_form_container">
+                <header>
+                    <h2>班級公告表</h2>
+                </header>
+                <sheet>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="mb-3" for="title">標題</label>
+                                <div class="p-4 border border-secondary">
+                                    <field name="title" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="mb-3" for="context">內容</label>
+                                <div class="p-4 border border-secondary">
+                                    <field name="context" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_announcement_panel" model="ir.actions.act_window">
+        <field name="name">班級公告表</field>
+        <field name="res_model">tutoring_centre.course_announcement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('course_id', '=', active_id)]</field>
+        <field name="context">{'course_id': active_id}</field>
+    </record>
+
+    <record id="tutoring_centre_course_announcement_kanban" model="ir.ui.view">
+        <field name="name">tutoring_centre.course.announcement.kanban</field>
+        <field name="model">tutoring_centre.course</field>
+        <field name="arch" type="xml">
+            <kanban create="False">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <field name="name" />
+                                </h5>
+                            </div>
+                            <div class="card-footer">
+                                <button type="action"
+                                    name="%(tutoringCentre.action_open_announcement_panel)d"
+                                    class="btn btn-primary">進入</button>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_announcement_action" model="ir.actions.act_window">
+        <field name="name">補習班公告系統</field>
+        <field name="res_model">tutoring_centre.course</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="tutoringCentre.tutoring_centre_course_announcement_kanban" />
+    </record>
+</odoo>

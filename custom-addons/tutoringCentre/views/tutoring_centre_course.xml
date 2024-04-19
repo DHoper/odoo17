@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tutoring_centre_course_action" model="ir.actions.act_window">
+        <field name="name">補習班課程</field>
+        <field name="res_model">tutoring_centre.course</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="tutoring_center_course_tree_view" model="ir.ui.view">
+        <field name="name">tutoring_centre.course_list_view</field>
+        <field name="model">tutoring_centre.course</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="name" />
+                <field name="course_phone" />
+                <field name="classroom" />
+                <field name="student" />
+                <field name="teacher" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="tutoring_center_course_form_view" model="ir.ui.view">
+        <field name="name">tutoring_centre.course_form_view</field>
+        <field name="model">tutoring_centre.course</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料">
+                <sheet>
+                    <notebook invisible="not id">
+                        <page name="student" string="學生列表">
+                            <field name="student" widget="many2many"
+                                domain="[('member_id', '!=', False)]" />
+                        </page>
+                        <page name="attendance" string="課堂提醒事項">
+                            <field name="notes" />
+                        </page>
+                        <page name="announcements" string="課堂公告">
+                            <field name="announcements" />
+                        </page>
+                        <page name="dates" string="上課時間">
+                            <field name="dates" />
+                        </page>
+                        <page name="teacher" string="任課教師">
+                            <field name="teacher" required="True" />
+                        </page>
+                        <page name="info" string="課程資訊">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="w-50">
+                                        <label for="name" class="form-label mb-2">課程名稱</label>
+                                        <field name="name" />
+                                    </div>
+                                    <div class="w-50">
+                                        <label for="category" class="form-label mb-2">課程類別</label>
+                                        <field name="category" />
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="w-50">
+                                        <label for="classroom" class="form-label mb-2">教室位置</label>
+                                        <field name="classroom" />
+                                    </div>
+                                    <div class="w-50">
+                                        <label for="course_phone" class="form-label mb-2">課程分機</label>
+                                        <field name="course_phone" />
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="w-50">
+                                        <label for="start_date" class="form-label mb-2">課程開始日</label>
+                                        <field name="start_date" />
+                                    </div>
+                                    <div class="w-50">
+                                        <label for="end_date" class="form-label mb-2">課程結束日</label>
+                                        <field name="end_date" />
+                                    </div>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+                    <div invisible="id" class="container">
+                        <form>
+                            <div class="d-flex flex-column">
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="w-50">
+                                        <label for="name" class="form-label mb-2">課程名稱</label>
+                                        <field name="name" />
+                                    </div>
+                                    <div class="w-50">
+                                        <label for="category" class="form-label mb-2">課程類別</label>
+                                        <field name="category" />
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="w-50">
+                                        <label for="classroom" class="form-label mb-2">教室位置</label>
+                                        <field name="classroom" />
+                                    </div>
+                                    <div class="w-50">
+                                        <label for="course_phone" class="form-label mb-2">課程分機</label>
+                                        <field name="course_phone" />
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="w-50">
+                                        <label for="start_date" class="form-label mb-2">課程開始日</label>
+                                        <field name="start_date" />
+                                    </div>
+                                    <div class="w-50">
+                                        <label for="end_date" class="form-label mb-2">課程結束日</label>
+                                        <field name="end_date" />
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column mt-2 mb-2">
+                                    <label for="dates" class="form-label mb-2">上課時間</label>
+                                    <field name="dates" />
+                                </div>
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="flex-fill">
+                                        <label for="student" class="form-label mb-2">學生</label>
+                                        <field name="student" widget="many2many"
+                                            domain="[('member_id', '!=', False)]" />
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row mb-2">
+                                    <div class="flex-fill">
+                                        <label for="teacher" class="form-label mb-2">教師</label>
+                                        <field name="teacher" required="True" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_dates_config_view_form" model="ir.ui.view">
+        <field name="name">tutoring_centre.course_dates_config.view.form</field>
+        <field name="model">tutoring_centre.course_dates_config</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料">
+                <sheet>
+                    <group>
+                        <field name="day_of_week" widget="selection_badge" />
+                        <field name="is_active" widget="boolean_toggle"
+                            options="{'autosave': false}" />
+                        <field name="start_time" />
+                        <field name="end_time" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="tutoring_centre_course_dates_config_tree_view" model="ir.ui.view">
+        <field name="name">tutoring_centre.course_dates_config_list_view</field>
+        <field name="model">tutoring_centre.course_dates_config</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料" delete="false">
+                <field name="day_of_week" widget="selection_badge" />
+                <field name="is_active" widget="boolean_toggle" options="{'autosave': false}" />
+                <field name="start_time" />
+                <field name="end_time" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="tutoring_center_course_note_tree_view" model="ir.ui.view">
+        <field name="name">tutoring_centre.course_note_list_view</field>
+        <field name="model">tutoring_centre.course_note</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="context" />
+                <field name="start_date" />
+                <field name="end_date" />
+            </tree>
+        </field>
+    </record>
+</odoo>

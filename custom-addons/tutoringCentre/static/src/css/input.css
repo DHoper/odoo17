@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Rubik&display=swap");
+/* @import 'animate.css'; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  width: 100vw;
+}
+
+.zh-cn {
+  font-family: "Noto Sans TC", sans-serif;
+}

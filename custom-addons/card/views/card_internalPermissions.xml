@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="card_internal_permissions_view_form" model="ir.ui.view">
+        <field name="name">card_internal_permissions.view.form</field>
+        <field name="model">card.internal_permissions</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料" delete="True">
+                <sheet>
+                    <group>
+                        <field name="useable_card_reader"/>
+                        <field name="useable_time_permissions"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="card_internal_permissions_tree_view" model="ir.ui.view">
+        <field name="name">card_internal_permissions_list_view</field>
+        <field name="model">card.internal_permissions</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="useable_card_reader"/>
+                <field name="useable_time_permissions" readonly="context.get('readOnly', False)" widget='many2many_tags' options="{'no_quick_create': True, 'color_field': 'color', 'no_edit_color': True}"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

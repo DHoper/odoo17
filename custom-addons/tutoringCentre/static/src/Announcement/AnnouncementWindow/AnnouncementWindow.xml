@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="announcement.AnnouncementWindow">
+        <div class="flex flex-col items-center justify-start flex-shrink-0 rounded-lg w-full min-h-screen bg-gray-100 shadow-lg">
+            <!-- Header -->
+            <div class="w-full bg-white shadow-md">
+                <div class="flex items-center justify-between px-4 py-3">
+                    <button tabindex="0" role="button" class="text-gray-600 hover:text-gray-800 focus:outline-none" t-on-click="() => this.props.close()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-10 h-10 overflow-hidden rounded-full bg-gray-200">
+                            <img src="/tutoringCentre/static/src/img/livechat-channel.png" alt="Avatar" class="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                            <p class="text-lg font-semibold text-gray-800">
+                                <t t-esc="props.class_group.name" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center justify-center flex-1 w-full py-6 px-4">
+                <div t-if="this.sanitizedMessages.length > 0" class="grid grid-cols-1 gap-6 max-w-lg w-full">
+                    <t t-foreach="this.sanitizedMessages" t-as="message" t-key="message.id">
+                        <div class="bg-white rounded-lg shadow-md p-4">
+                            <div class="text-gray-800">
+                                <p>
+                                    <t t-esc="message.sanitizedBody"/>
+                                </p>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <div t-else="" class="flex items-center justify-center w-full h-full">
+                    <p class="text-gray-500">目前暫無公告</p>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

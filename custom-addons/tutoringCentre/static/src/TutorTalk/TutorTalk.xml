@@ -1,0 +1,93 @@
+<templates xml:space="preserve">
+    <t t-name="tutorTalk.Root">
+        <div class="h-full w-full overflow-hidden">
+            <div class="h-full flex flex-col px-2 py-6">
+                <div class="h-full flex flex-col">
+                    <div class="px-3">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">聊天</h2>
+                    </div>
+                    <!-- 公告頻道 -->
+                    <ul t-if="livechat.announce_channels and livechat.announce_channels.length == 1"  class="flex w-full gap-3 overflow-x-scroll scrollbar-hide px-2">
+                        <li t-foreach="livechat.announce_channels" class="w-full shrink-0 bg-indigo-300 p-2 rounded" t-as="channel" t-key="channel.id" t-on-click="() => openChatWindow(channel.id, channel.name, livechat.im_livechat_avatars[channel.livechat_channel_id[0]])">
+                            <p t-if="state.last_message_list[channel.id]" /> <!--缺少此行則 livechat.new_message_notify[channel.id] 響應性失效-->
+                            <div class="relative flex flex-col items-center justify-around p-1 cursor-pointer transition-colors relative rounded" t-att-class="livechat.new_message_notify[channel.id]? 'border-2  border-indigo-600 bg-indigo-600':'border-2 border-indigo-400 bg-indigo-400'">
+                                <div class="h-14 w-14 flex-shrink-0 rounded-full bg-white p-1">
+                                    <img t-if="livechat.im_livechat_avatars[channel.livechat_channel_id[0]]" t-attf-src="data:image/png;base64,{{ livechat.im_livechat_avatars[channel.livechat_channel_id[0]]}}" alt="Avatar" class="object-cover rounded-full h-full w-full"/>
+                                    <img t-else="" src="/tutoringCentre/static/src/img/livechat-channel.png" alt="Team-spirit" class="object-cover rounded-full  h-full w-full"/>
+                                </div>
+
+                                <div class="flex flex-col w-full overflow-hidden py-2">
+                                    <p class="w-full text-center text-sm font-semibold truncate max-w-xs text-white" t-esc="channel.display_name.split('-')[0]"/>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul t-else="livechat.announce_channels"  class="flex w-full gap-3 overflow-x-scroll scrollbar-hide px-2">
+                        <li t-foreach="livechat.announce_channels" class="flex-1 shrink-0 min-w-[calc(33.33%-10px)]" t-as="channel" t-key="channel.id" t-on-click="() => openChatWindow(channel.id, channel.name, livechat.im_livechat_avatars[channel.livechat_channel_id[0]])">
+                            <p t-if="state.last_message_list[channel.id]" /> 
+                            <div class="mt-7 relative w-full flex flex-col items-center p-1 cursor-pointer transition-colors relative rounded" t-att-class="livechat.new_message_notify[channel.id]? 'border-2  border-indigo-600 bg-indigo-600':'border-2 border-indigo-400 bg-indigo-400'">
+                                <div class="h-14 w-14 absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex-shrink-0 border-2 border-indigo-400 bg-white rounded-full p-1 mb-2">
+                                    <img t-if="livechat.im_livechat_avatars[channel.livechat_channel_id[0]]" t-attf-src="data:image/png;base64,{{ livechat.im_livechat_avatars[channel.livechat_channel_id[0]]}}" alt="Avatar" class="object-cover rounded-full h-full w-full"/>
+                                    <img t-else="" src="/tutoringCentre/static/src/img/livechat-channel.png" alt="Team-spirit" class="object-cover rounded-full  h-full w-full"/>
+                                </div>
+    
+                                <div class="mt-4 flex flex-col w-full overflow-hidden py-2 px-1">
+                                    <p class="w-full text-center text-sm font-semibold truncate max-w-xs text-white" t-esc="channel.display_name.split('-')[0]"/>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div t-if="livechat.live_channels and livechat.live_channels.length &gt; 0" class="px-3 mt-6">
+                        <h3 class="text-base font-semibold text-gray-800">訊息列表</h3>
+                    </div>
+                    <div t-else="" class="bg-indigo-100 rounded p-8 mx-4">
+                        <h3 class="text-lg font-semibold text-gray-800">暫無啟用的頻道</h3>
+                        <h3 class="text-lg font-semibold text-gray-800">請聯絡客服人員</h3>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <p>客服電話：+1234567890</p>
+                            <p>客服信箱：example@example.com</p>
+                        </div>
+                    </div>
+                    
+                    
+
+
+                    <!-- 客服頻道 -->
+                    <ul t-if="livechat.live_channels and livechat.live_channels.length &gt; 0" class="flex-1 overflow-scroll scrollbar-hide">
+                        <li t-foreach="livechat.live_channels" t-as="channel" t-key="channel.id" t-on-click="() => openChatWindow(channel.id, channel.name, livechat.im_livechat_avatars[channel.livechat_channel_id[0]])">
+                            <div class="w-full flex items-center space-x-4 p-4 cursor-pointer hover:bg-gray-50 transition-colors relative">
+                                <div class="flex-shrink-0 bg-indigo-100 border border-indigo-300 rounded-full p-1/2">
+                                    <img t-if="livechat.im_livechat_avatars[channel.livechat_channel_id[0]]" t-attf-src="data:image/png;base64,{{ livechat.im_livechat_avatars[channel.livechat_channel_id[0]]}}" alt="Avatar" class="object-cover h-10 w-10 rounded-full"/>
+                                    <img t-else="" src="/tutoringCentre/static/src/img/livechat-channel.png" alt="Team-spirit" class="object-cover w-10 h-10 rounded-full"/>
+                                </div>
+
+                                <div class="flex-grow h-12 flex flex-col gap-1 overflow-hidden">
+                                    <div class="flex justify-between items-center">
+                                        <p class="text-sm font-semibold text-indigo-500 truncate max-w-xs" t-esc="channel.name"></p>
+                                        <p t-if="state.last_message_list[channel.id]" class="text-xs font-medium text-gray-600">
+                                            <time class="text-[12px]">
+                                                <span t-esc="state.last_message_list[channel.id].write_date"/>
+                                            </time>
+                                        </p>
+                                    </div>
+                                    <div class="w-full flex justify-between items-center">
+                                        <p t-if="state.last_message_list[channel.id]" class="text-gray-600 truncate max-w-xs" t-esc="state.last_message_list[channel.id].body"/>
+                                        <span t-if="livechat.new_message_notify[channel.id]" class="px-2 py-1 text-red-500 rounded-full bg-red-500/20 text-[10px]">
+                                            <t t-esc="'New'"/>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div t-if="state.showChatWindow" class="z-10 absolute top-0 w-full z-10 animate__animated duration-75" t-att-class="state.animateClass">
+                <ChatWindow close="closeChatWindow" channel_info="state.currentChannelInfo" />
+            </div>
+        </div>
+    </t>
+</templates>

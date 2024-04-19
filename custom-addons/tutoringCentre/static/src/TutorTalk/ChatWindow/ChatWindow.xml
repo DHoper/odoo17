@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tutorTalk.ChatWindow">
+        <div class="flex flex-col items-center flex-shrink-0 rounded-2xl w-full h-screen bg-white shadow">
+            <div class="navbar bg-base-100 dark:bg-white border-b">
+                <div class="flex-none">
+                    <button class="btn-sm btn-square btn-ghost focus:shadow-none" t-on-click="props.close">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex-1 flex gap-2 pr-2">
+                    <div class="avatar">
+                        <div class="w-12 rounded-full p-1 border border-2 border-[#a5b4fc!important]">
+                            <img class="rounded-full object-fit" t-if="props.channel_info.image" t-attf-src="data:image/png;base64,{{ props.channel_info.image }}" />
+                            <img class="rounded-full object-fit" t-else="" src="/tutoringCentre/static/src/img/livechat-channel.png" alt=""/>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-base font-semibold text-start">
+                            <t t-esc="props.channel_info.name" />
+                        </p>
+                    </div>
+                    <div t-if="state.in_livechat">
+                        <button t-if="!state.parentPickLoading" t-on-click="parentPick" class="btn btn-sm btn-outline border-indigo-500 text-indigo-500 focus:shadow-none">
+                        MCall
+                        </button>
+                        <button t-else="" class="btn btn-sm btn-outline btn-disabled text-xs">
+                            <span class="mx-2 loading loading-dots loading-xs"></span>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="dropdown dropdown-end">
+                    <button tabindex="0" role="button" class="btn btn-circle btn-ghost focus:shadow-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5
+                stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19
+                12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0
+                1 1 0 012 0z"></path>
+                        </svg>
+                    </button>
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 p-2 bg-white shadow rounded-box w-52
+                z-[1]">
+                        <li>
+                            <a>動作一</a>
+                        </li>
+                        <li>
+                            <a>動作二</a>
+                        </li>
+                        <li>
+                            <a>動作三</a>
+                        </li>
+                    </ul>
+                </div> -->
+            </div>
+
+            <dialog id="parentPick" class="modal modal-bottom sm:modal-middle">
+                <div class="modal-box dark:bg-white flex flex-col items-center">
+                    <h3 class="font-bold text-lg">成功!</h3>
+                    <p class="py-4">
+                        <span t-esc="state.parentPickPopText"/>
+                    </p>
+                    <div class="modal-action">
+                        <form method="dialog">
+                            <button class="btn btn-success text-white">關閉</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+
+            <div t-ref="chatList" t-if="this.state.channelMessages.length > 0" class="flex flex-col overflow-y-auto scrollbar-hide w-full p-2 bg-white">
+                <t t-foreach="this.state.channelMessages" t-as="message" t-key="message.id">
+                    <div class="message p-2 sm:p-0 mb-2 rounded">
+                        <t t-if="message.author.user.id != member.memberInfo.portal_user and message.author.user.login != 'public'">
+                            <div class="chat chat-start">
+                                <div class="chat-image avatar">
+                                    <div class="w-10 rounded-full">
+                                        <img t-if="this.state.avatar_images[message.author.user.id]" t-attf-src="data:image/png;base64,{{ this.state.avatar_images[message.author.user.id] }}" alt="Avatar" class="h-10 w-10 rounded-full"/>
+                                        <img t-else="" src="/tutoringCentre/static/src/img/livechat-channel.png" alt="Team-spirit" class="h-10 w-10 rounded-full"/> 
+                                    </div>
+                                </div>
+                                <div class="chat-header h-fit">
+                                    <span class="break-keep" t-esc="message.author.name"/>
+                                </div>
+                                <div class="chat-bubble chat-bubble-info h-fit w-full max-w-fit" >
+                                    <p class="break-words" t-out="message.body"></p>
+                                    <!-- <img t-if="message.attachments.length &gt; 0"
+                                    t-attf-src="data:image/png;base64,{{ message.attachments. }}"
+                                    alt="Avatar" class="mt-1"/> -->
+                                </div>
+                                <div class="chat-footer flex text-slate-500 gap-2 mt-1">
+                                    <time class="text-xs">
+                                        <span t-esc="message.write_date"/>
+                                    </time>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="chat chat-end">
+                                <div class="chat-bubble chat-bubble-success h-fit w-full max-w-fit">
+                                    <p class="break-words" t-out="message.body"/>
+                                </div>
+                                <div class="chat-footer flex text-slate-500 gap-2 mt-1">
+                                    <time class="text-xs">
+                                        <span t-esc="message.write_date"/>
+                                    </time>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+
+            <div t-if="state.in_livechat" class="flex items-center w-full bg-white p-4 mt-auto border-t">
+                <textarea t-model="state.text" t-ref="textarea" t-on-input="autoResize" class="dark:bg-white flex-1 h-10 px-4 py-2 text-sm border border-gray-300 rounded-full scrollbar-hide focus:outline-none" rows="1"></textarea>
+                <button t-on-click="onClickSendMessage" class="flex-shrink-0 ml-4 p-2 text-white bg-indigo-500 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>

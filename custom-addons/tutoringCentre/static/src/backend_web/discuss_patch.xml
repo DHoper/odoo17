@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tutoring_centre.Discuss" t-inherit="mail.Discuss" t-inherit-mode="extension">
+        <xpath expr="//div[contains(@class, 'd-flex')]/AutoresizeInput" position="after">
+            <div t-if="thread.type === 'livechat' and tutoring_centre_state.class_group" class="modal fade" id="class_groupInfoModal" tabindex="-1" aria-labelledby="class_groupInfoModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="class_groupInfoModalLabel"><span t-esc="tutoring_centre_state.class_group.name" /></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col">
+                                    <p><strong>班級樓層 :</strong> <span t-esc="tutoring_centre_state.class_group.classroom" /></p>
+                                </div>
+                                <div class="col">
+                                    <p><strong>班級分機 :</strong> <span t-esc="tutoring_centre_state.class_group.class_group_phone" /></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p><strong>課程時間 :</strong> <span t-esc="format_time(tutoring_centre_state.class_group.start_time)" /> - <span t-esc="format_time(tutoring_centre_state.class_group.end_time)" /></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button t-if="thread.type === 'livechat' and tutoring_centre_state.class_group" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#class_groupInfoModal">
+                <i class="fa fa-eye"></i>
+            </button>
+        </xpath>
+          
+    </t>
+</templates>

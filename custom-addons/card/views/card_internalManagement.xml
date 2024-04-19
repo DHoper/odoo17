@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="card_internal_management_action" model="ir.actions.act_window">
+        <field name="name">卡片管理</field>
+        <field name="res_model">card.internal_management</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="card_internal_management_tree_view" model="ir.ui.view">
+        <field name="name">card_internal_management_list_view</field>
+        <field name="model">card.internal_management</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="internal_management_cardHolder" widget="many2one_avatar_user"/>
+                <field name="internal_management_remark" class="w-20"/>
+                <field name="internal_management_uid"/>
+                <field name="internal_management_active"/>
+                <field name="internal_management_validDate"/>
+                <field name="internal_management_group" widget='many2many_tags' options="{'no_quick_create': True, 'color_field': 'color', 'no_edit_color': True}"/>
+                <field name="internal_management_permissions" widget='many2many_tags'/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="card_internal_management_form_view" model="ir.ui.view">
+        <field name="name">card_internal_management_form_view</field>
+        <field name="model">card.internal_management</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料">
+                <sheet>
+                    <div class="container">
+                        <form>
+                            <div class="container">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="internal_management_active" class="form-label me-2">啟用狀態</label>
+                                            <field name="internal_management_active" widget="boolean_toggle" options="{'autosave': false}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="internal_management_cardHolder" class="form-label">持卡人</label>
+                                            <div>
+                                                <field name="internal_management_cardHolder" class="form-control w-100"/>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="internal_management_remark" class="form-label">卡片註記</label>
+                                            <div>
+                                                <field name="internal_management_remark" class="form-control w-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="internal_management_uid" class="form-label">UID</label>
+                                            <div>
+                                                <field name="internal_management_uid" class="form-control w-100"/>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="internal_management_validDate" class="form-label">卡片效期</label>
+                                            <div>
+                                                <field name="internal_management_validDate" class="form-control w-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="internal_management_group" class="form-label">啟用群組</label>
+                                            <div>
+                                                <field name="internal_management_group" class="form-control w-100">
+                                                    <tree string="目前尚無資料" edit="False">
+                                                        <field name="internal_group_name"/>
+                                                        <field name="internal_group_remark"/>
+                                                        <field name="internal_group_permissions" widget='many2many_tags' options="{'no_quick_create': True, 'color_field': 'color', 'no_edit_color': True}"/>
+                                                    </tree>
+
+                                                    <form string="目前尚無資料" edit="False">
+                                                        <sheet>
+                                                            <div class="container">
+                                                                <form edit="False">
+                                                                    <div class="d-flex flex-column gap-3">
+                                                                        <div class="d-flex flex-row justify-content-between gap-5 px-0">
+                                                                            <div class="col-md-6 flex-fill">
+                                                                                <label for="internal_group_name" class="form-label">群組名稱</label>
+                                                                                <div>
+                                                                                    <field name="internal_group_name" class="form-control w-100"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-6 flex-fill">
+                                                                                <label for="internal_group_remark" class="form-label">群組註記</label>
+                                                                                <div>
+                                                                                    <field name="internal_group_remark" class="form-control w-100"/>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="mb-3">
+                                                                            <label for="internal_group_permissions" class="form-label">許可權限</label>
+                                                                            <div>
+                                                                                <field name="internal_group_permissions" class="form-control">
+                                                                                    <tree string="目前尚無資料" readonly="True" no_open="True">
+                                                                                        <field name="useable_card_reader"/>
+                                                                                        <field name="useable_time_permissions" widget='many2many_tags' options="{'no_quick_create': True, 'color_field': 'color', 'no_edit_color': True}"/>
+                                                                                    </tree>
+                                                                                </field>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </sheet>
+                                                    </form>
+                                                </field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="internal_management_permissions" class="form-label">卡片權限</label>
+                                            <div>
+                                                <field name="internal_management_permissions" class="form-control w-100" context="{'readOnly': internal_management_group.length > 0}" readonly="internal_management_group.length > 0">
+                                                    <tree string="目前尚無資料" no_open="True">
+                                                        <field name="useable_card_reader"/>
+                                                        <field name="useable_time_permissions" widget='many2many_tags' options="{'no_quick_create': True, 'color_field': 'color', 'no_edit_color': True}"/>
+                                                    </tree>
+                                                </field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

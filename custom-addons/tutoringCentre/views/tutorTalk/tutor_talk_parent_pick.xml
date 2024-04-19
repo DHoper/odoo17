@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tutor_talk_parent_pick_action" model="ir.actions.act_window">
+        <field name="name">測</field>
+        <field name="res_model">tutor_talk.parent_pick</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="card_internal_group_action" model="ir.actions.act_window">
+        <field name="name">群組設定</field>
+        <field name="res_model">card.internal_group</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="card_internal_group_tree_view" model="ir.ui.view">
+        <field name="name">card_internal_group_list_view</field>
+        <field name="model">card.internal_group</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="internal_group_name"/>
+                <field name="internal_group_remark"/>
+                <field name="internal_group_permissions" widget='many2many_tags' options="{'no_quick_create': True, 'color_field': 'color', 'no_edit_color': True}"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="card_internal_group_view_form" model="ir.ui.view">
+        <field name="name">card_internal_group_view_form</field>
+        <field name="model">card.internal_group</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料">
+                <sheet>
+                    <div class="container">
+                        <form>
+                            <div class="d-flex flex-column gap-3">
+                                <div class="col-md-1 flex-fill">
+                                    <label for="color" class="form-label">標籤顏色</label>
+                                    <div>
+                                        <field name="color" widget="color_picker" optional="show" />
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-between gap-5 px-0">
+                                    <div class="col-md-6 flex-fill">
+                                        <label for="internal_group_name" class="form-label">群組名稱</label>
+                                        <div>
+                                            <field name="internal_group_name" class="form-control w-100"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 flex-fill">
+                                        <label for="internal_group_remark" class="form-label">群組註記</label>
+                                        <div>
+                                            <field name="internal_group_remark" class="form-control w-100"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="internal_group_permissions" class="form-label">許可權限</label>
+                                    <div>
+                                        <field name="internal_group_permissions" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

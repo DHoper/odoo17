@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tutor_talk_channel_action" model="ir.actions.act_window">
+        <field name="name">頻道設定</field>
+        <field name="res_model">tutor_talk.channel</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="tutor_talk_channel_tree_view" model="ir.ui.view">
+        <field name="name">tutor_talk_channel_list_view</field>
+        <field name="model">tutor_talk.channel</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="channel_name"/>
+                <field name="channel_active"/>
+                <field name="channel_port"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="tutor_talk_channel_view_form" model="ir.ui.view">
+        <field name="name">tutor_talk_channel_view_form</field>
+        <field name="model">tutor_talk.channel</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料">
+                <sheet>
+                    <div class="container">
+                        <form>
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex flex-row justify-content-between gap-5 px-0">
+                                    <div class="col-md-6 flex-fill">
+                                        <label for="channel_name" class="form-label">頻道名稱</label>
+                                        <div>
+                                            <field name="channel_name" class="form-control w-100"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 flex-fill">
+                                        <label for="channel_active" class="form-label me-2">啟用狀態</label>
+                                        <field name="channel_active" widget="boolean_toggle" options="{'autosave': false}"/>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="channel_port" class="form-label">使用頻道</label>
+                                    <div>
+                                        <field name="channel_port" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

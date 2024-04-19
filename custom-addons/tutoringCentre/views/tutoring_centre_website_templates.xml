@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="tutoringCentre.root">&lt;!DOCTYPE html&gt;
+        <html>
+            <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+                <meta name="theme-color" content="#71639e"/>
+                <link rel="manifest" href="/tutoringCentre/manifest.webmanifest" crossorigin="use-credentials"/>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+                <script type="text/javascript">
+                    var odoo = {
+                        csrf_token: "<t t-nocache="The csrf token must always be up to date." t-esc="request.csrf_token(None)"/>
+",
+                        debug: "<t t-out="debug"/>
+",
+                        __session_info__: <t t-esc="json.dumps(session_info)"/>
+,
+                    };
+        </script>
+        <t t-call-assets="tutoringCentre.assets_parentPortal"/>
+    </head>
+    <body/>
+</html>
+</template>
+</odoo>

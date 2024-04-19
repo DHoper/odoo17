@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="card_reader_root" name="讀卡機管理">
+        <menuitem id="card_reader_all" name="裝置總覽">
+            <menuitem id="card_reader_action" action="card_reader_devices_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>

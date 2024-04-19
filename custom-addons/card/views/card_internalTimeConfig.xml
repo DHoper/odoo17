@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="card_internal_timeConfig_action" model="ir.actions.act_window">
+            <field name="name">卡片時間設置</field>
+            <field name="res_model">card.internal_time_config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="card_internal_timeConfig_tree_view" model="ir.ui.view">
+            <field name="name">card_internal_timeConfig_list_view</field>
+            <field name="model">card.internal_time_config</field>
+            <field name="arch" type="xml">
+                <tree string="目前尚無資料">
+                    <field name="timeConfig_name"/>
+                    <field name="timeConfig_brief"/>
+                    <field name="timeConfig_permissions"/>
+                    <field name="id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="card_internal_timeConfig_view_form" model="ir.ui.view">
+            <field name="name">card_internal_timeConfig_view_form</field>
+            <field name="model">card.internal_time_config</field>
+            <field name="arch" type="xml">
+                <form string="目前尚無資料">
+                    <sheet>
+                        <div class="container">
+                            <form>
+                                <div class="d-flex flex-column gap-3">
+                                    <div class="d-flex flex-row justify-content-between gap-5 px-0">
+                                        <div class="col-md-4 flex-fill">
+                                            <label for="timeConfig_name" class="form-label">名稱</label>
+                                            <div>
+                                                <field name="timeConfig_name" class="form-control w-100"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 flex-fill">
+                                            <label for="timeConfig_brief" class="form-label">描述</label>
+                                            <div>
+                                                <field name="timeConfig_brief" class="form-control w-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="timeConfig_permissions" class="form-label">時間權限</label>
+                                        <div>
+                                            <field name="timeConfig_permissions" class="form-control" create="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="card_internal_timeConfig_permissions_view_form" model="ir.ui.view">
+            <field name="name">card_internal_timeConfig_permissions.view.form</field>
+            <field name="model">card.internal_time_config.permissions</field>
+            <field name="arch" type="xml">
+                <form string="目前尚無資料">
+                    <sheet>
+                        <group>
+                            <field name="day_of_week" widget="selection_badge" readonly="True"/>
+                            <field name="is_active" widget="boolean_toggle" options="{'autosave': false}"/>
+                            <field name="start_time" readonly="is_active == False" invisible="is_active == False"/>
+                            <field name="end_time" readonly="is_active == False" invisible="is_active == False"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="card_internal_timeConfig_permissions_tree_view" model="ir.ui.view">
+            <field name="name">card_internal_timeConfig_permissions_list_view</field>
+            <field name="model">card.internal_time_config.permissions</field>
+            <field name="arch" type="xml">
+                <tree string="目前尚無資料" delete="false">
+                    <field name="day_of_week" widget="selection_badge"/>
+                    <field name="is_active" widget="boolean_toggle" options="{'autosave': false}"/>
+                    <field name="start_time" readonly="is_active == False"/>
+                    <field name="end_time" readonly="is_active == False"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

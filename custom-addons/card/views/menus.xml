@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="card_root" name="卡片">
+        <menuitem id="card_internal" name="內部卡片">
+            <menuitem id="card_internal_management_menu" action="card_internal_management_action" name="卡片管理" />
+            <menuitem id="card_internal_group_menu" name="群組設定" action="card_internal_group_action" />
+            <menuitem id="card_internal_timeConfig_menu" name="時間組態" action="card_internal_timeConfig_action" />
+        </menuitem>
+        
+        <menuitem id="card_external" name="會員卡片">
+            <menuitem id="card_external_management_menu" name="卡片管理">
+                <!-- <menuitem id="card_reader_action" action="card_timeConfig_action"/> -->
+            </menuitem>
+            <menuitem id="card_external_group" name="群組設定">
+                <!-- <menuitem id="card_reader_action" action="card_timeConfig_action"/> -->
+            </menuitem>
+        </menuitem>
+    </menuitem>
+</odoo>

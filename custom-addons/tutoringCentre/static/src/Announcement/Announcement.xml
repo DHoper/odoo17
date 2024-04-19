@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="announcement.Root">
+        <div class="bg-[#f0f1ff] h-full flex flex-col">
+            <div class="px-5 py-8 max-w-3xl mx-auto">
+                <h3 class="text-3xl font-bold text-[#13183f] mb-6">班级公告</h3>
+                <div class="grid grid-cols-1 gap-8">
+                    <div t-foreach="state.class_groups" t-as="class_group" t-key="class_group.id" class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-[#13183f] mb-4" t-esc="class_group.name">--公告區</h3>
+                            <p class="text-sm text-gray-600">最新消息 : 5分鐘前</p>
+                            <div class="mt-6 border-t border-gray-200 pt-4">
+                                <p class="text-gray-700">公告内容：这里是公告的内容，可以是很长的一段文字，告知班级的重要信息。</p>
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 bg-[#13183f] flex justify-between items-center">
+                            <button class="text-sm text-white font-medium hover:underline focus:outline-none focus:ring focus:ring-blue-300 rounded-md" t-on-click="() => openAnnounceWindow(class_group.id, class_group.name)">查看</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div t-if="state.showWindow" class="absolute top-0 w-full z-10 animate__animated duration-75" t-att-class="state.animateClass">
+                <AnnouncementWindow close="closeAnnounceWindow" class_group="state.current_class_group" />
+            </div>
+        </div>
+    </t>
+</templates>

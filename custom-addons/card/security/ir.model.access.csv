@@ -1,0 +1,10 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_card_internal_time_config,access_card_internal_time_config,model_card_internal_time_config,base.group_user,1,1,1,1
+access_card_internal_time_config_permissions,access_card_internal_time_config_permissions,model_card_internal_time_config_permissions,base.group_user,1,1,1,1
+
+access_card_internal_permissions,access_card_internal_permissions,model_card_internal_permissions,base.group_user,1,1,1,1
+
+access_card_internal_group,access_card_internal_group,model_card_internal_group,base.group_user,1,1,1,1
+
+access_card_internal_management,access_card_internal_management,model_card_internal_management,base.group_user,1,1,1,1

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="tutoring_centre_member_action" model="ir.actions.act_window">
+        <field name="name">補習班會員</field>
+        <field name="res_model">tutoring_centre.member</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="tutoring_center_member_tree_view" model="ir.ui.view">
+        <field name="name">tutoring_centre.member_list_view</field>
+        <field name="model">tutoring_centre.member</field>
+        <field name="arch" type="xml">
+            <tree string="目前尚無資料">
+                <field name="name" />
+                <field name="email" />
+                <field name="phone" />
+                <field name="student" />
+                <field name="is_active" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="tutoring_center_member_form_view" model="ir.ui.view">
+        <field name="name">tutoring_centre.member_form_view</field>
+        <field name="model">tutoring_centre.member</field>
+        <field name="arch" type="xml">
+            <form string="目前尚無資料">
+                <sheet>
+                    <div class="container">
+                        <div class="d-flex flex-column gap-3">
+                            <div class="row">
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <label for="name" class="form-label me-2">姓名</label>
+                                    <field name="name" />
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <field name="avatar" widget="image" class="oe_avatar" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label me-2">電話</label>
+                                    <field name="phone" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="address" class="form-label me-2">地址</label>
+                                    <field name="address" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 d-flex align-items-center gap-2">
+                                    <label for="is_active">帳號狀態</label>
+                                    <field name="is_active" widget="boolean_toggle" class="ml-1" />
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-6" invisible="has_current_user">
+                                        <label for="email" class="form-label me-2">郵箱</label>
+                                        <field name="email" required="not has_current_user"
+                                            widget="email" />
+                                    </div>
+                                    <div invisible="not has_current_user">
+                                        <label for="portal_user" class="form-label">對應使用者</label>
+                                        <field name="portal_user" class="w-100" />
+                                    </div>
+                                    <div class="mb-3" invisible="id">
+                                        <field name="has_current_user" />
+                                        <label for="has_current_user" class="ml-1">使用現有使用者註冊</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-between gap-5 px-0">
+                                <div class="col-md-6 flex-fill">
+                                    <label for="student" class="form-label me-2">學生</label>
+                                    <field name="student" widget="many2many"
+                                        domain="[('member_id', '=', False)]" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
