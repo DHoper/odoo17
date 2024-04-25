@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="tutoring_centre_root" name="補習班">
-        <menuitem id="tutoring_centre_totur_talk" action="class_group_channel_view_action"
+
+        <menuitem id="tutoring_centre_totur_talk" action="course_channel_view_action"
             name="家長頻道" sequence="1" />
         <menuitem id="tutoring_centre_member" name="會員" sequence="2">
             <menuitem id="tutoring_centre_member_list" action="tutoring_centre_member_action"
@@ -13,7 +14,7 @@
             <menuitem id="tutoring_centre_teacher_list" action="tutoring_centre_teacher_action"
                 name="教師列表" />
         </menuitem>
-        <menuitem id="tutoring_centre_class_group" name="分班" sequence="4">
+        <menuitem id="tutoring_centre_class_group" name="分班" sequence="5">
             <menuitem id="tutoring_centre_class_group_list"
                 action="tutoring_centre_class_group_action" name="分班列表" />
             <!-- <menuitem id="tutoring_centre_class_group_attendance"

@@ -118,18 +118,6 @@ class TutorTalkController(Controller):
 
         return channels
 
-    # @route(
-    #     "/tutoringCentre/api/announcement/fetch_announcement_messages",
-    #     type="json",
-    #     auth="public",
-    # )
-    # def _fetch_announcement_messages(self, class_group_id):
-    #     class_group = request.env["tutoring_centre.class_group"].sudo().browse(class_group_id)
-    #     if not class_group:
-    #         return False
-    #     messages = class_group.get_announcement_messages()
-    #     return messages
-
     @route(
         "/tutoringCentre/api/tutorTalk/livechat/fetch_last_read_messages",
         type="json",

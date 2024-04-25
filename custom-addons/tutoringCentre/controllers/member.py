@@ -83,6 +83,7 @@ class TutoringCentreMemberController(Controller):
                 else:
                     filtered_course["teacher"] = False
                 filtered_course["category"] = course["category"]
+                filtered_course["promote_intro"] = course["promote_intro"]
                 filtered_course["classroom"] = course["classroom"]
                 filtered_course["course_phone"] = course["course_phone"]
                 filtered_course["start_date"] = course["start_date"]
@@ -107,8 +108,8 @@ class TutoringCentreMemberController(Controller):
                     filtered_course["notes"] = False
                 courses.append(filtered_course)
             student["courses"] = courses
-            member_values = member.read()[0]
-            member_values["student"] = student_data
-            member_values["partner_id"] = member.portal_user.partner_id.id
+        member_values = member.read()[0]
+        member_values["student"] = student_data
+        member_values["partner_id"] = member.portal_user.partner_id.id
 
-            return member_values
+        return member_values

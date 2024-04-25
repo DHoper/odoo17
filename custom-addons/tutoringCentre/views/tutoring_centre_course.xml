@@ -31,17 +31,11 @@
                             <field name="student" widget="many2many"
                                 domain="[('member_id', '!=', False)]" />
                         </page>
-                        <page name="attendance" string="課堂提醒事項">
-                            <field name="notes" />
-                        </page>
                         <page name="announcements" string="課堂公告">
                             <field name="announcements" />
                         </page>
-                        <page name="dates" string="上課時間">
-                            <field name="dates" />
-                        </page>
-                        <page name="teacher" string="任課教師">
-                            <field name="teacher" required="True" />
+                        <page name="attendance" string="課堂提醒事項">
+                            <field name="notes" />
                         </page>
                         <page name="info" string="課程資訊">
                             <div class="d-flex flex-column">
@@ -76,6 +70,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="d-flex flex-column">
+                                <label for="teacher" class="form-label mb-2">任課教師</label>
+                                <field name="teacher" required="True" />
+                            </div>
+                        </page>
+                        <page name="promote_intro" string="課程介紹(推廣)">
+                            <field name="promote_intro" />
+                        </page>
+                        <page name="dates" string="上課時間">
+                            <field name="dates" />
                         </page>
                     </notebook>
                     <div invisible="id" class="container">

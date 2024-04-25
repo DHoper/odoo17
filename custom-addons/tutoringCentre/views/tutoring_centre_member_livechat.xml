@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="class_group_channel_view_kanban" model="ir.ui.view">
-        <field name="name">tutoring_centre.class_group.kanban</field>
-        <field name="model">tutoring_centre.class_group</field>
+    <record id="course_channel_view_kanban" model="ir.ui.view">
+        <field name="name">tutoring_centre.course.kanban</field>
+        <field name="model">tutoring_centre.course</field>
         <field name="priority" eval="10"/>
         <field name="arch" type="xml">
-            <kanban js_class="tutoringCentre.class_group_channel_kanban" create="false">
-                <field name="announcementChannel"/>
+            <kanban js_class="tutoringCentre.course_channel_kanban" create="false">
+                <!-- <field name="announcementChannel"/> -->
                 <field name="student"/>
                 <templates>
                     <t t-name="kanban-box">
@@ -17,7 +17,7 @@
                                     <div class="row mb-3">
                                         <div class="col">
                                             <div class="row">
-                                                <p class="card-text fs-6 text-muted">班級分機: <field name="class_group_phone" class="w-100"/></p>
+                                                <p class="card-text fs-6 text-muted">課程分機: <field name="course_phone" class="w-100"/></p>
                                             </div>
                                             <div class="row">
                                                 <p class="card-text fs-6 text-muted">教室位置: <field name="classroom" class="w-100"/></p>
@@ -39,18 +39,18 @@
     </record>
 
 
-    <record id="class_group_channel_view_action" model="ir.actions.act_window">
-        <field name="name">班級頻道</field>
-        <field name="res_model">tutoring_centre.class_group</field>
+    <record id="course_channel_view_action" model="ir.actions.act_window">
+        <field name="name">家長頻道</field>
+        <field name="res_model">tutoring_centre.course</field>
         <field name="view_mode">tree,form,kanban</field>
-        <field name="domain">[('announcementChannel', '!=', False)]</field>
+        <field name="domain">[('teacher.portal_user', 'in', [uid])]</field>
     </record>
 
-    <record id="class_group_channel_action_tree" model="ir.actions.act_window.view">
+    <record id="course_channel_action_tree" model="ir.actions.act_window.view">
         <field name="sequence">1</field>
         <field name="view_mode">kanban</field>
-        <field name="view_id" ref="tutoringCentre.class_group_channel_view_kanban"/>
-        <field name="act_window_id" ref="tutoringCentre.class_group_channel_view_action"/>
+        <field name="view_id" ref="tutoringCentre.course_channel_view_kanban"/>
+        <field name="act_window_id" ref="tutoringCentre.course_channel_view_action"/>
     </record>
 
     <record id="discuss_channel_view_tree" model="ir.ui.view">
@@ -111,7 +111,7 @@
         <field name="name">家長窗口</field>
         <field name="res_model">discuss.channel</field>
         <field name="view_mode">tree,form,kanban</field>
-        <field name="domain">[ '&amp;','&amp;', ('active', '=', True), ('channel_type', '=', 'livechat'),'|',('outer_user_id', 'in', context.get('students') or []),('id', '=',  context.get('announcementChannel'))]</field>
+        <field name="domain">[ '&amp;','&amp;', ('active', '=', True), ('channel_type', '=', 'livechat'),('outer_user_id', 'in', context.get('students') or [])]</field>
     </record>
 
     <record id="discuss_channel_action_tree" model="ir.actions.act_window.view">

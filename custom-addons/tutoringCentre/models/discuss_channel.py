@@ -35,7 +35,6 @@ class DiscussChannel(models.Model):
 
     def _notify_thread(self, message, msg_vals=False, **kwargs):
         super()._notify_thread(message, msg_vals, **kwargs)
-        _logger.info("--------------------89445-----------------------")
 
         if self.channel_type != "livechat":
             return
@@ -50,7 +49,7 @@ class DiscussChannel(models.Model):
             [("active_channels", "=", self.id)]
         )
 
-        if not student:
+        if not student or message.message_type != "comment":
             return
         self.send_post_request_to_external_api(
             "http://172.16.150.27:3002/fetchOdooNotify",

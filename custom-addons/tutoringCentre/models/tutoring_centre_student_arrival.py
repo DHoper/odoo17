@@ -20,21 +20,21 @@ class TutoringCentreStudentArrival(models.Model):
         ondelete="cascade",
     )
 
-    _sql_constraints = [
-        (
-            "unique_date_student",
-            "UNIQUE(date, student_id)",
-            "每個學生一天只能有一筆到校紀錄",
-        )
-    ]
+    # _sql_constraints = [
+    #     (
+    #         "unique_date_student",
+    #         "UNIQUE(date, student_id)",
+    #         "每個學生一天只能有一筆到校紀錄",
+    #     )
+    # ]
 
-    @api.constrains("date", "student_id")
-    def check_unique_arrival(self):
-        for record in self:
-            domain = [
-                ("date", "=", record.date),
-                ("student_id", "=", record.student_id.id),
-            ]
-            count = self.search_count(domain)
-            if count > 1:
-                raise ValidationError("每個學生一天只能有一筆到校紀錄")
+    # @api.constrains("date", "student_id")
+    # def check_unique_arrival(self):
+    #     for record in self:
+    #         domain = [
+    #             ("date", "=", record.date),
+    #             ("student_id", "=", record.student_id.id),
+    #         ]
+    #         count = self.search_count(domain)
+    #         if count > 1:
+    #             raise ValidationError("每個學生一天只能有一筆到校紀錄")

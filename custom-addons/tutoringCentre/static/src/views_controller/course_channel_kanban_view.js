@@ -11,11 +11,12 @@ export class TutoringCentreClassGroupChannelKanbanController extends KanbanContr
     }
 
     async openRecord(record) {
-        if (!record.data.announcementChannel) {
-            return super.openRecord(record);
-        }
+        // if (!record.data.announcementChannel) {
+        //     return super.openRecord(record);
+        // }
+        console.log("record.data.student._currentIds", record.data.student._currentIds);
         this.actionService.doAction("tutoringCentre.discuss_channel_view_action", {
-            additionalContext: { students: record.data.student._currentIds, announcementChannel: record.data.announcementChannel[0] },
+            additionalContext: { students: record.data.student._currentIds },
         });
     }
 }
@@ -28,6 +29,6 @@ const TutoringCentreClassGroupChannelKanbanView = {
 registry
     .category("views")
     .add(
-        "tutoringCentre.class_group_channel_kanban",
+        "tutoringCentre.course_channel_kanban",
         TutoringCentreClassGroupChannelKanbanView
     );

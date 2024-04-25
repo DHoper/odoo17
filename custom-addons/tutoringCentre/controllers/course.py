@@ -1,5 +1,5 @@
 from odoo.http import request, route, Controller
-from datetime import datetime, timedelta
+from datetime import datetime
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -25,6 +25,59 @@ class TutoringCentreCourseController(Controller):
             return "未找到課程公告資料"
 
     @route(
+        "/tutoringCentre/api/get_all_course",
+        type="json",
+        auth="public",
+    )
+    def _get_all_course(self):
+        raw_courses = request.env["tutoring_centre.course"].sudo().search([])
+        courses_data = raw_courses.read() if raw_courses else None
+        if not courses_data:
+            return []
+
+        courses = []
+        for course in courses_data:
+            filtered_course = {}
+            filtered_course["id"] = course["id"]
+            filtered_course["name"] = course["name"]
+            if course["teacher"]:
+                teacher = (
+                    request.env["tutoring_centre.teacher"]
+                    .sudo()
+                    .browse(course["teacher"])
+                )
+                filtered_course["teacher"] = teacher.read()
+            else:
+                filtered_course["teacher"] = False
+            filtered_course["category"] = course["category"]
+            filtered_course["promote_intro"] = course["promote_intro"]
+            filtered_course["classroom"] = course["classroom"]
+            filtered_course["course_phone"] = course["course_phone"]
+            filtered_course["start_date"] = course["start_date"]
+            filtered_course["end_date"] = course["end_date"]
+            if course["dates"]:
+                dates = (
+                    request.env["tutoring_centre.course_dates_config"]
+                    .sudo()
+                    .browse(course["dates"])
+                )
+                filtered_course["dates"] = dates.read()
+            else:
+                filtered_course["dates"] = False
+            if course["notes"]:
+                notes = (
+                    request.env["tutoring_centre.course_note"]
+                    .sudo()
+                    .browse(course["notes"])
+                )
+                filtered_course["notes"] = notes.read()
+            else:
+                filtered_course["notes"] = False
+            courses.append(filtered_course)
+
+        return courses
+
+    @route(
         "/tutoringCentre/api/get_courses_attendances",
         type="json",
         auth="public",
@@ -36,11 +89,6 @@ class TutoringCentreCourseController(Controller):
         except ValueError:
             return {"error": "年月格式錯誤"}
 
-        start_date = datetime(year, month, 1)
-        end_date = start_date.replace(
-            month=month % 12 + 1, year=year if month < 12 else year + 1, day=1
-        )
-
         attendances = (
             request.env["tutoring_centre.course_attendance_line"]
             .sudo()
@@ -48,58 +96,18 @@ class TutoringCentreCourseController(Controller):
                 [
                     ("student_id", "=", student_id),
                     # ("end_time", "!=", None),
-                    ("start_time", ">=", start_date.strftime("%Y-%m-%d %H:%M:%S")),
-                    ("start_time", "<", end_date.strftime("%Y-%m-%d %H:%M:%S")),
+                    # ("start_time", "<=", to_date),
                 ]
             )
         )
+
         if not attendances:
             return False
 
-        return attendances.read()
-
-    # @route(
-    #     "/tutoringCentre/api/get_today_courses_attendance",
-    #     type="json",
-    #     auth="public",
-    # )
-    # def _get_today_courses_attendance(self, student_id):
-    #     today_date = datetime.now().date()
-
-    #     attendances = (
-    #         request.env["tutoring_centre.course_attendance_line"]
-    #         .sudo()
-    #         .search(
-    #             [
-    #                 ("student_id", "=", student_id),
-    #             ]
-    #         )
-    #     )
-
-    #     if not attendances:
-    #         return {"error": "未找到指定條件之出席紀錄"}
-
-    #     attendance_records = []
-
-    #     for attendance in attendances:
-    #         attendance_data = attendance.read()
-    #         if attendance_data:
-    #             first_attendance = attendance_data[0]
-    #             start_time = first_attendance.get("start_time")
-    #             end_time = first_attendance.get("end_time")
-
-    #             if start_time:
-    #                 start_time += timedelta(hours=8)
-    #                 first_attendance["start_time"] = start_time
-
-    #             if end_time:
-    #                 end_time += timedelta(hours=8)
-    #                 first_attendance["end_time"] = end_time
-
-    #             if start_time and start_time.date() == today_date:
-    #                 attendance_records.append(first_attendance)
-
-    #     return attendance_records
+        attendance_records = []
+        for attendance in attendances:
+            attendance_records.append(attendance.read()[0])
+        return attendance_records
 
     @route(
         "/tutoringCentre/api/get_student_arrivals",
@@ -113,44 +121,26 @@ class TutoringCentreCourseController(Controller):
         except ValueError:
             return {"error": "年月格式錯誤"}
 
-        start_date = datetime(year, month, 1)
-        end_date = start_date.replace(
-            month=month % 12 + 1, year=year if month < 12 else year + 1, day=1
-        )
-
         arrivals = (
             request.env["tutoring_centre.student_arrival"]
             .sudo()
             .search(
                 [
                     ("student_id", "=", student_id),
-                    ("date", ">=", start_date),
-                    ("date", "<", end_date),
                 ]
             )
         )
+
         if not arrivals:
             return False
 
-        return arrivals.read()
-
-
-# @route(
-#     "/tutoringCentre/api/get_courses",
-#     type="json",
-#     auth="public",
-# )
-# def _get_courses_announcements(self, course_ids):
-#     if not course_ids:
-#         return False
-#     courses = (
-#         request.env["tutoring_centre.course_announcement"]
-#         .sudo()
-#         .search([("course_id", "in", course_ids)])
-#     )
-#     _logger.info(course_ids)
-#     _logger.info(announcements)
-#     if announcements:
-#         return announcements.read()
-#     else:
-#         return "未找到課程公告資料"
+        arrival_records = []
+        for arrival in arrivals:
+            arrival_records.append(
+                {
+                    "arrival_time": arrival.arrival_time,
+                    "departure_time": arrival.departure_time,
+                    "date": arrival.date,
+                }
+            )
+        return arrival_records

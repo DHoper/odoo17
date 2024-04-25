@@ -11,6 +11,7 @@ export class TutoringCentreLivechatKanbanController extends KanbanController {
     }
 
     async openRecord(record) {
+        console.log("record.data.is_member", record.data.is_member);
         if (!record.data.is_member) {
             return super.openRecord(record);
         }

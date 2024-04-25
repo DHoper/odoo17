@@ -61,8 +61,6 @@ class TutoringCentreMember(models.Model):
     def _get_useable_users_domain(self):
         records_data = self.search([])
         if records_data:
-            _logger.info(records_data)
-            _logger.info(records_data.mapped("portal_user.id"))
             portal_user_ids = records_data.mapped("portal_user.id")
         else:
             portal_user_ids = []

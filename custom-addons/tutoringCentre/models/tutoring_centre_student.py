@@ -21,6 +21,9 @@ class TutoringCentreStudent(models.Model):
         ],
     )
     member_id = fields.Many2one("tutoring_centre.member", string="會員")
+    # teacher = fields.Many2many(
+    #     "tutoring_centre.teacher", string="任課教師", required=True
+    # )
     parent_name = fields.Char(related="member_id.name", string="家長姓名")
     parent_phone = fields.Char(
         string="家長電話", readonly=True, compute="_compute_parent_phone"
@@ -63,7 +66,8 @@ class TutoringCentreStudent(models.Model):
         return super(TutoringCentreStudent, self).write(vals)
 
     def _reset_arrival_corn(self):
-        students = self.env["tutoring_centre.student"].sudo().search()
+        students = self.env["tutoring_centre.student"].sudo().search([])
+        _logger.info("我有執行!!!!!")
         if students:
             students.write({"is_arrival": False})
 
@@ -100,23 +104,23 @@ class TutoringCentreStudent(models.Model):
         current_partner_id = self.env.user.partner_id
         current_time = datetime.now()
 
-        # 創建新的離校紀錄
         departure_record = self.env["tutoring_centre.student_arrival"].search(
             [("date", "=", current_time.date()), ("student_id", "=", self.id)]
         )
         if departure_record:
             departure_record.departure_time = current_time
+            # 發送離校通知
+            self.active_channels.sudo().message_post(
+                body=f"{self.name}小朋友目前已離開補習班，請多加留意！",
+                author_id=current_partner_id.id,
+                message_type="comment",
+                subtype_xmlid="mail.mt_comment",
+            )
+
+            self.is_arrival = False
+
+            return departure_record
+
         else:
-            raise ValidationError(("查無本日到校紀錄，請聯絡IT人員"))
-
-        # 發送離校通知
-        self.active_channels.sudo().message_post(
-            body=f"{self.name}小朋友目前已離開補習班，請多加留意！",
-            author_id=current_partner_id.id,
-            message_type="comment",
-            subtype_xmlid="mail.mt_comment",
-        )
-
-        self.is_arrival = False
-
-        return departure_record
+            self.is_arrival = False
+            # raise ValidationError(("查無本日到校紀錄，請聯絡IT人員"))

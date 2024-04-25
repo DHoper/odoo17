@@ -16,8 +16,7 @@ patch(Discuss.prototype, {
 
         useEffect(() => {
             (async () => {
-                console.log(7877, this.tutoring_centre_state);
-                if (this.thread.type === "livechat") {
+                if (this.thread && this.thread.type === "livechat") {
                     this.tutoring_centre_state.class_group = await this.rpc("/tutoringCentre/api/backend_web/get_class_group_info", { "channel_id": this.thread.id })
                 }
             })()

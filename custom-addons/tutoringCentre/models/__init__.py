@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from . import tutoring_centre_student
 from . import tutoring_centre_student_arrival
-from . import tutoring_centre_attendance
+# from . import tutoring_centre_attendance
 from . import tutoring_centre_teacher
 from . import tutoring_centre_member
 from . import tutoring_centre_class_group

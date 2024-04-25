@@ -50,6 +50,12 @@
                 <sheet>
                     <div class="container">
                         <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="date">日期</label>
+                                <field name="date" />
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="start_time">開始時間</label>
                                 <field name="start_time" />
@@ -73,7 +79,7 @@
                                 <field name="attendance_line_ids">
                                     <tree string="目前尚無資料" create="False" delete="False" edit="False">
                                         <field name="student_id" />
-                                        <field name="attended" widget="boolean_toggle" />
+                                        <field name="attended" />
                                         <field name="remark" />
                                         <field name="start_time" />
                                         <field name="end_time" />
@@ -130,7 +136,6 @@
                         </div>
                     </t>
                 </templates>
-
             </kanban>
         </field>
     </record>
@@ -141,18 +146,6 @@
         <field name="view_mode">kanban</field>
         <field name="view_id" ref="tutoringCentre.tutoring_centre_course_attendance_kanban" />
     </record>
-
-    <!-- <record id="send_group_message" model="ir.actions.server">
-        <field name="name">發送點名訊息</field>
-        <field name="model_id" ref="tutoringCentre.model_tutoring_centre_student"/>
-        <field name="binding_model_id" ref="tutoringCentre.model_tutoring_centre_student"/>
-        <field name="binding_view_types">tree</field>
-        <field name="state">code</field>
-        <field name="code">
-course_id = env.context.get('course_id')
-action = env['tutoring_centre.course'].roll_call(course_id,records)
-        </field>
-    </record> -->
 
     <record id="tutoring_centre_course_attendance_line_list" model="ir.ui.view">
         <field name="name">tutoring_centre_course_attendance_line_list</field>
@@ -178,8 +171,8 @@ action = env['tutoring_centre.course'].roll_call(course_id,records)
                 <field name="student_id" />
                 <field name="attended" />
                 <field name="remark" />
-                <field name="start_time" />
-                <field name="end_time" />
+                <field invisible="not id" name="start_time" />
+                <field invisible="not id" name="end_time" />
             </tree>
         </field>
     </record>
@@ -195,8 +188,8 @@ action = env['tutoring_centre.course'].roll_call(course_id,records)
                         <field name="student_id" />
                         <field name="attended" />
                         <field name="remark" />
-                        <field name="start_time" />
-                        <field name="end_time" />
+                        <field invisible="not id" name="start_time" />
+                        <field invisible="not id" name="end_time" />
                     </group>
                 </sheet>
             </form>

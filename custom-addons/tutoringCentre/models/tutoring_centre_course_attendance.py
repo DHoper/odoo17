@@ -35,6 +35,7 @@ class CourseAttendance(models.Model):
     absent_students = fields.Integer(
         string="未到人數", compute="_compute_attendance_data"
     )
+    date = fields.Date(string="日期", default=fields.Date.today(), required=True)
     start_time = fields.Datetime("開始時間", default=fields.Datetime.now())
     end_time = fields.Datetime("結束時間")
 
@@ -74,12 +75,13 @@ class CourseAttendance(models.Model):
 
     def create(self, values):
         attendance = super(CourseAttendance, self).create(values)
-        students = []
+        _logger.info(values)
+        # students = []
         for attendance_line in attendance.attendance_line_ids:
-            if attendance_line.attended == True:
+            if attendance_line.attended:
                 attendance_line.start_time = attendance.start_time
                 attendance_line.end_time = attendance.end_time
-                students.append(attendance_line.student_id)
+
         return attendance
 
     def write(self, values):
@@ -98,48 +100,21 @@ class CourseAttendance(models.Model):
         for attendance_line in self.attendance_line_ids:
             attendance_line.end_time = self.end_time
 
-    # @api.model
-    # def roll_call(self, course_id, students):
-    #     current_partner_id = self.env.user.partner_id
-    #     course = self.env["tutoring_centre.course"].sudo().browse(course_id)
-    #     for student in students:
-    #         domain = [
-    #             (
-    #                 "id",
-    #                 "in",
-    #                 student.active_channels.ids,
-    #             ),
-    #             (
-    #                 "id",
-    #                 "!=",
-    #                 course.announcementChannel.id,
-    #             ),
-    #         ]
-    #         channel = self.env["discuss.channel"].search(domain)
-    #         message = f"爸爸媽媽您好<br/>{student.name}小朋友已經在我們{course.name}班上完成點名<br/>請您放心。"
-    #         channel.message_post(
-    #             body=Markup(f"<p>{message}</p>"),
-    #             author_id=current_partner_id.id,
-    #             message_type="comment",
-    #             subtype_xmlid="mail.mt_comment",
-    #         )
-
-    @api.constrains("course_id", "start_time")
+    @api.constrains("course_id", "date")
     def _check_unique_attendance_per_day(self):
         for attendance in self:
-            if attendance.course_id and attendance.start_time:
-                attendance_date = attendance.start_time.date()
+            if attendance.course_id and attendance.date:
                 existing_attendance = self.env[
                     "tutoring_centre.course_attendance"
                 ].search(
                     [
                         ("course_id", "=", attendance.course_id.id),
-                        ("start_time", ">=", attendance_date),
+                        ("date", ">=", attendance.date),
                         ("id", "!=", attendance.id),
                     ]
                 )
                 if existing_attendance:
-                    if existing_attendance[0].start_time.date() == attendance_date:
+                    if existing_attendance[0].date == attendance.date:
                         raise ValidationError("此課程已經存在今日的點名表紀錄。")
 
 
@@ -156,28 +131,32 @@ class AttendanceLine(models.Model):
     course_id = fields.Integer(
         related="course_attendance_id.course_id.id",
         string="對應班級ID",
-        readonly=True,
+        store=True,
+        required=True,
     )
     course_name = fields.Char(
         related="course_attendance_id.course_id.name",
         string="對應班級",
-        readonly=True,
     )
     checking_teacher = fields.Many2one(
         "tutoring_centre.teacher",
         related="course_attendance_id.checking_teacher",
         string="對應點名老師",
-        readonly=True,
         domain="[('id', 'in', teacher_ids)]",
     )
     student_id = fields.Many2one(
         "tutoring_centre.student",
         string="學生",
-        required=True,
         ondelete="cascade",
     )
     attended = fields.Boolean(string="出席狀況", default=True)
     remark = fields.Char("備註事由")
+    date = fields.Date(
+        string="日期",
+        default=fields.Date.today(),
+        required=True,
+        related="course_attendance_id.date",
+    )
     start_time = fields.Datetime(string="上課時間")
     end_time = fields.Datetime(string="下課時間")
 
@@ -192,3 +171,9 @@ class AttendanceLine(models.Model):
     #     for record in self:
     #         if record.course_attendance_id:
     #             record.end_time = record.course_attendance_id.end_time
+
+    @api.onchange("attended")
+    def _set_time_null(self):
+        if self.attended is False:
+            self.start_time = False
+            self.end_time = False

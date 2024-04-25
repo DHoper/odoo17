@@ -89,6 +89,8 @@
         <field name="name">Student : reset_is_arrival</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
+        <field name="nextcall"
+            eval="(DateTime.now().replace(hour=0, minute=0, second=0) + timedelta(hours=16)).strftime('%Y-%m-%d %H:%M:%S')" />
         <field name="numbercall">-1</field>
         <field name="doall" eval="True" />
         <field name="model_id" ref="model_tutoring_centre_student" />
