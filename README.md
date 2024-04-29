@@ -1,1 +1,1 @@
-此專案需配置PostgreSQL方可運行
+此專案需配置PostgreSQL方可運行，或將custom模組資料夾單獨取用、裝載再現有的odoo17社區版實例上即可。
